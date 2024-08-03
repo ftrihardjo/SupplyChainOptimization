@@ -1,4 +1,4 @@
-Insert " (Earth's displacement, Earth's velocity, Jupiter's position, Jupiter's velocity)" at the end of the comment at line 23.
-Replace the word "Vector" at line 36 with "Radius".
-Intervention: Replace the word "Vector" with "Displacement" instead.
-Save gravitational_simulation.py.
+Insert "html.Label('Initial Earth Velocity (m/s)')," at line 54.
+Intervention: Actually just remove the default value for the input argument "value" at line 55 instead.
+Remove the default value for the input argument "value" at line 56.
+Save app.py.

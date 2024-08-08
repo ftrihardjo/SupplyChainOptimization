@@ -1,68 +1,55 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QTextEdit, QFormLayout, QListWidget, QListWidgetItem, QMessageBox
-from PyQt5.QtCore import Qt
+import PySimpleGUI as sg
 
 class Tweet:
-    def __init__(self, content, likes=0):
+    def __init__(self, content):
         self.content = content
-        self.likes = likes
+        self.likes = 0
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Twitter Clone")
-        self.setGeometry(100, 100, 400, 600)
+def update_tweet_list(window, tweets):
+    tweet_list = [f"{tweet.content}\nLikes: {tweet.likes}" for tweet in tweets]
+    window['-TWEETLIST-'].update(tweet_list)
 
-        self.tweets = []
+def main():
+    sg.theme('DarkAmber')
 
-        # Set up the layout
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
-        self.layout = QVBoxLayout(self.central_widget)
+    layout = [
+        [sg.Text("What's happening?")],
+        [sg.Multiline(size=(50, 3), key='-TWEETINPUT-')],
+        [sg.Button('Post Tweet')],
+        [sg.Listbox(values=[], size=(50, 10), key='-TWEETLIST-', enable_events=True)],
+        [sg.Button('Like Tweet'), sg.Button('Exit')]
+    ]
 
-        # Form for posting a tweet
-        self.formLayout = QFormLayout()
-        self.tweetInput = QTextEdit()
-        self.postButton = QPushButton("Post Tweet")
-        self.postButton.clicked.connect(self.post_tweet)
+    window = sg.Window('Twitter Clone', layout)
 
-        self.formLayout.addRow("What's happening?", self.tweetInput)
-        self.formLayout.addWidget(self.postButton)
+    tweets = []
 
-        # List to display tweets
-        self.tweetList = QListWidget()
+    while True:
+        event, values = window.read()
+        
+        if event == sg.WINDOW_CLOSED or event == 'Exit':
+            break
+        
+        if event == 'Post Tweet':
+            content = values['-TWEETINPUT-'].strip()
+            if content:
+                tweet = Tweet(content)
+                tweets.append(tweet)
+                update_tweet_list(window, tweets)
+                window['-TWEETINPUT-'].update('')
+            else:
+                sg.popup('Please enter some content to tweet.')
 
-        # Add form layout and tweet list to the main layout
-        self.layout.addLayout(self.formLayout)
-        self.layout.addWidget(self.tweetList)
+        if event == 'Like Tweet':
+            selected_tweet = values['-TWEETLIST-']
+            if selected_tweet:
+                index = window['-TWEETLIST-'].get_indexes()[0]
+                tweets[index].likes += 1
+                update_tweet_list(window, tweets)
+            else:
+                sg.popup('Please select a tweet to like.')
 
-    def post_tweet(self):
-        content = self.tweetInput.toPlainText().strip()
-        if content:
-            tweet = Tweet(content)
-            self.tweets.append(tweet)
-            self.display_tweets()
-            self.tweetInput.clear()
-        else:
-            QMessageBox.warning(self, "Empty Tweet", "Please enter some content to tweet.")
-
-    def display_tweets(self):
-        self.tweetList.clear()
-        for tweet in self.tweets:
-            item = QListWidgetItem(f"{tweet.content}\nLikes: {tweet.likes}")
-            item.setTextAlignment(Qt.AlignLeft)
-            item.setData(Qt.UserRole, tweet)
-            self.tweetList.addItem(item)
-            likeButton = QPushButton("Like")
-            likeButton.clicked.connect(lambda _, t=tweet: self.like_tweet(t))
-            self.tweetList.setItemWidget(item, likeButton)
-
-    def like_tweet(self, tweet):
-        tweet.likes += 1
-        self.display_tweets()
+    window.close()
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.show()
-    sys.exit(app.exec_())
+    main()

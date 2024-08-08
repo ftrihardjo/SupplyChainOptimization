@@ -1,4 +1,4 @@
-- Insert the following method definition inside the class MainWindow at line 60:
+- Insert the following method definition at line 60 inside the class MainWindow which is defined at line 10:
 def setUp(self):
   pass
 - Select the code from line 19 to line 21.

@@ -1,3 +1,6 @@
-Remove QLabel imported from PyQt5.QtWidgets module at line 2 as it isn't used.
-Remove line 4 as the code there isn't used.
-Replace the variable index at line 96 with _ as it isn't used.
+- Insert the following method definition inside the class MainWindow at line 60:
+def setUp(self):
+  pass
+- Select the code from line 19 to line 21.
+- Replace the pass keyword at line 61 with the selected code.
+- Replace the code from line 19 to line 21 with the method call to the recently entered setUp method.

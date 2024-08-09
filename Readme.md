@@ -1,5 +1,4 @@
-- Rename the function definition main at line 12 with create_gui.
-- Replace the only function call of main at line 55 with create_gui.
-- Select the value assigned to the variable tweet_list at line 9.
-- Replace the variable tweet_list at line 10 with the selected code.
-- Remove line 9.
+Remove everything from line 63 to line 92 as it is a duplicate.
+Remove the input argument instance at line 43 as it is never used.
+Replace pass keyword at line 50 with code which will display an alert box with its error message being "Tweet has no content!".
+Remove the comment at line 50.

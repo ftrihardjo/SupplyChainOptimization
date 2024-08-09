@@ -1,4 +1,4 @@
-Remove everything from line 63 to line 92 as it is a duplicate.
-Remove the input argument instance at line 43 as it is never used.
-Replace pass keyword at line 50 with code which will display an alert box with its error message being "Tweet has no content!".
-Remove the comment at line 50.
+Change the class name at line 9 in main.py with ChirpNetApp.
+Change the string at line 12 to "ChirpNet".
+Change the name of the function called at line 59 to ChirpNetApp.
+Delete the variable app defined and assigned at line 59.
